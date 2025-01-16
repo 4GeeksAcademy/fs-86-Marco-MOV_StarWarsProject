@@ -1,0 +1,82 @@
+.card.dark-card {
+    background-color: #1c1c1e; /* Fondo oscuro */
+    color: #fff; /* Texto claro */
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra sutil */
+    overflow: hidden;
+    width: 300px;
+    margin: 20px auto;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card.dark-card:hover {
+    transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+.card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card-content {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.card-description {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: #d1d1d1; /* Texto más claro para la descripción */
+    text-align: left;
+    line-height: 1.4;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.learn-more-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.learn-more-button:hover {
+    background-color: #0056b3;
+}
+
+.favorite-button {
+    background-color: #2d2d30;
+    border: none;
+    color: #888;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.favorite-button:hover {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.favorite-active {
+    background-color: #e74c3c;
+    color: #fff;
+}

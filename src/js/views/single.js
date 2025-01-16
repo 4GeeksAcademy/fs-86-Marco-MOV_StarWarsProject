@@ -1,26 +1,80 @@
-import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
-export const Single = props => {
-	const { store, actions } = useContext(Context);
-	const params = useParams();
-	return (
-		<div className="jumbotron">
-			<h1 className="display-4">This will show the demo element: {store.demo[params.theid].title}</h1>
+export const Single = () => {
+    const { type, uid } = useParams();
+    const navigate = useNavigate();
+    const [details, setDetails] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-			<hr className="my-4" />
+    const getImageUrl = () => {
+        const imageType = type === "people" ? "characters" : type;
+        return `https://starwars-visualguide.com/assets/img/${imageType}/${uid}.jpg`;
+    };
 
-			<Link to="/">
-				<span className="btn btn-primary btn-lg" href="#" role="button">
-					Back home
-				</span>
-			</Link>
-		</div>
-	);
-};
+    useEffect(() => {
+        const fetchDetails = async () => {
+            try {
+                const response = await fetch(`https://www.swapi.tech/api/${type}/${uid}`);
+                if (!response.ok) {
+                    throw new Error(`Error ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                setDetails(data.result);
+            } catch (err) {
+                console.error("Error fetching details:", err.message);
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-Single.propTypes = {
-	match: PropTypes.object
+        fetchDetails();
+    }, [type, uid]);
+
+    if (loading) {
+        return <h2 className="text-center">Loading...</h2>;
+    }
+
+    if (error) {
+        return <h2 className="text-center text-danger">Error: {error}</h2>;
+    }
+
+    return (
+        <div className="container mt-5 text-light bg-dark p-4 rounded">
+            {details && (
+                <>
+                    <h1 className="text-center mb-4">{details.properties.name}</h1>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <img
+                                src={getImageUrl()}
+                                className="img-fluid rounded"
+                                alt={details.properties.name}
+                            />
+                        </div>
+                        <div className="col-md-6">
+                            <h4 className="mb-4">Details:</h4>
+                            <ul>
+                                {Object.keys(details.properties).map((key) => (
+                                    <li key={key}>
+                                        <strong>{key}:</strong> {details.properties[key]}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                    <div className="mt-4 text-center">
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => navigate(-1)}
+                        >
+                            Back
+                        </button>
+                    </div>
+                </>
+            )}
+        </div>
+    );
 };

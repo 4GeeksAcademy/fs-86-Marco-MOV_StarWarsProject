@@ -1,45 +1,56 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
+    return {
+        store: {
+            characters: [], 
+            planets: [],
+            starships: [],
+            favorites: JSON.parse(localStorage.getItem("favorites")) || [],
+        },
+        actions: {
+            
+            loadData: async () => {
+                try {
+                    const characterResponse = await fetch("https://www.swapi.tech/api/people");
+                    const characterData = await characterResponse.json();
+                    setStore({ characters: characterData.results || [] });
+            
+                    const planetResponse = await fetch("https://www.swapi.tech/api/planets");
+                    const planetData = await planetResponse.json();
+                    setStore({ planets: planetData.results || [] });
+            
+                    const starshipResponse = await fetch("https://www.swapi.tech/api/starships");
+                    const starshipData = await starshipResponse.json();
+                    setStore({ starships: starshipData.results || [] });
+                } catch (error) {
+                    console.error("Error loading data:", error);
+                }
+            },
+            addFavorite: (item) => {
+                const store = getStore();
+                const isAlreadyFavorite = store.favorites.some(
+                    (fav) => fav.uid === item.uid && fav.type === item.type
+                );
+                if (!isAlreadyFavorite) {
+                    const updatedFavorites = [...store.favorites, item];
+                    setStore({ favorites: updatedFavorites });
+                    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+                }
+            },
+            
+            removeFavorite: (uid, type) => {
+                const store = getStore();
+                const updatedFavorites = store.favorites.filter(
+                    (fav) => fav.uid !== uid || fav.type !== type
+                );
+                setStore({ favorites: updatedFavorites });
+                localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+            },
+            isFavorite: ({ uid, type }) => {
+                const store = getStore();
+                return store.favorites.some((fav) => fav.uid === uid && fav.type === type);
+            },
+        }
+    };
 };
 
 export default getState;
