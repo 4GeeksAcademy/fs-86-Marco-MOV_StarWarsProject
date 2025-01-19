@@ -19,7 +19,7 @@ export const Home = () => {
                                 if (actions.isFavorite({ uid: character.uid, type: "people" })) {
                                     actions.removeFavorite(character.uid, "people");
                                 } else {
-                                    actions.addFavorite({ uid: character.uid, type: "people", name: character.name }); // Si no lo es, lo añade
+                                    actions.addFavorite({ uid: character.uid, type: "people", name: character.name });
                                 }
                             }}
                             isFavorite={({ uid, type }) => actions.isFavorite({ uid: character.uid, type: "people" })}

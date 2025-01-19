@@ -65,14 +65,6 @@ export const Single = () => {
                             </ul>
                         </div>
                     </div>
-                    <div className="mt-4 text-center">
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate(-1)}
-                        >
-                            Back
-                        </button>
-                    </div>
                 </>
             )}
         </div>

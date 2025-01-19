@@ -25,6 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.error("Error loading data:", error);
                 }
             },
+            
             addFavorite: (item) => {
                 const store = getStore();
                 const isAlreadyFavorite = store.favorites.some(
