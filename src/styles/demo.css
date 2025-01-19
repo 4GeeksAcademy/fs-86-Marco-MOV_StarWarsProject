@@ -1,8 +1,8 @@
 .card.dark-card {
-    background-color: #1c1c1e; /* Fondo oscuro */
-    color: #fff; /* Texto claro */
+    background-color: #1c1c1e; 
+    color: #fff;
     border-radius: 10px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); /* Sombra sutil */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4); 
     overflow: hidden;
     width: 300px;
     margin: 20px auto;
@@ -11,7 +11,7 @@
 }
 
 .card.dark-card:hover {
-    transform: scale(1.05); /* Efecto de zoom al pasar el mouse */
+    transform: scale(1.05);
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.6);
 }
 
@@ -34,7 +34,7 @@
 .card-description {
     font-size: 0.9rem;
     margin-bottom: 15px;
-    color: #d1d1d1; /* Texto más claro para la descripción */
+    color: #d1d1d1;
     text-align: left;
     line-height: 1.4;
 }
